@@ -7,7 +7,7 @@ from pycldf import Dataset
 
 
 def form(parent, lang, text):
-    xml_form = ET.SubElement(parent, 'form', attrib={'lang': lang})
+    xml_form = ET.SubElement(parent, 'form', lang=lang)
     xml_text = ET.SubElement(xml_form, 'text')
     xml_text.text = text
     return xml_text
@@ -34,14 +34,14 @@ def main():
 
     # generate lift xml
 
-    lift = ET.Element('lift', attrib={'lang': lang})
+    lift = ET.Element('lift', lang=lang)
     for entry in entries:
         entry_id = entry.get('ID')
         lx = entry.get('Headword')
         ps = entry.get('Part_Of_Speech')
         # TODO proper error handling
         assert entry_id and lx, 'invalid entry'
-        xml_entry = ET.SubElement(lift, 'entry', attrib={'id': entry_id})
+        xml_entry = ET.SubElement(lift, 'entry', id=entry_id)
         xml_lexunit = ET.SubElement(xml_entry, 'lexical-unit')
         form(xml_lexunit, lang, lx)
 
@@ -49,9 +49,8 @@ def main():
             sense_id = sense['ID']
             de = sense['Description']
             xml_sense_id = '{}-{}'.format(entry_id, sense_id)
-            xml_sense = ET.SubElement(
-                xml_entry, 'sense', attrib={'id': xml_sense_id})
-            ET.SubElement(xml_sense, 'grammatical-info', attrib={'type': ps})
+            xml_sense = ET.SubElement(xml_entry, 'sense', id=xml_sense_id)
+            ET.SubElement(xml_sense, 'grammatical-info', type=ps)
             xml_de = ET.SubElement(xml_sense, 'definition')
             form(xml_de, 'en', de)
 
