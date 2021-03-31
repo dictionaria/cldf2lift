@@ -7,6 +7,9 @@ from pycldf import Dataset
 
 
 def main():
+
+    # load cldf data
+
     cldf = Dataset.from_metadata('tests/test_data/Dictionary-metadata.json')
     # TODO add proper 'lang' attribute (wants two-letter isocode?)
     lang = 'und-Latn'
@@ -21,6 +24,8 @@ def main():
         if entry_id not in senses:
             senses[entry_id] = []
         senses[entry_id].append(sense)
+
+    # generate lift xml
 
     lift = ET.Element('lift', attrib={'lang': lang})
     for entry in entries:
