@@ -34,6 +34,7 @@ def main():
         xml_form = ET.SubElement(xml_lexunit, 'form', attrib={'lang': lang})
         xml_text = ET.SubElement(xml_form, 'text')
         xml_text.text = lx
+
         for sense in senses[entry_id]:
             sense_id = sense['ID']
             de = sense['Description']
