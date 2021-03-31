@@ -21,7 +21,6 @@ def main():
     # TODO add proper 'lang' attribute (wants two-letter isocode?)
     lang = 'und-Latn'
 
-    entries = cldf['EntryTable']
     senses = OrderedDict()
     for sense in cldf['SenseTable']:
         entry_id = sense.get('Entry_ID')
@@ -31,6 +30,8 @@ def main():
         if entry_id not in senses:
             senses[entry_id] = []
         senses[entry_id].append(sense)
+
+    entries = [e for e in cldf['EntryTable'] if e.get('ID') in senses]
 
     # generate lift xml
 
