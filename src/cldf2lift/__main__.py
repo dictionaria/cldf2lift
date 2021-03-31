@@ -32,7 +32,8 @@ def main():
         xml_entry = ET.SubElement(lift, 'entry', attrib={'id': entry_id})
         xml_lexunit = ET.SubElement(xml_entry, 'lexical-unit')
         xml_form = ET.SubElement(xml_lexunit, 'form', attrib={'lang': lang})
-        ET.SubElement(xml_form, 'text', text=lx)
+        xml_text = ET.SubElement(xml_form, 'text')
+        xml_text.text = lx
         for sense in senses[entry_id]:
             sense_id = sense['ID']
             de = sense['Description']
@@ -42,7 +43,8 @@ def main():
             ET.SubElement(xml_sense, 'grammatical-info', attrib={'type': ps})
             xml_de = ET.SubElement(xml_sense, 'definition')
             xml_de_form = ET.SubElement(xml_de, 'form', attrib={'lang': 'en'})
-            ET.SubElement(xml_de_form, 'text', text=de)
+            xml_de_text = ET.SubElement(xml_de_form, 'text')
+            xml_de_text.text = de
 
     print(str(
         ET.tostring(lift, encoding='UTF-8', xml_declaration=True),
