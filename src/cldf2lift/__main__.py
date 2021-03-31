@@ -6,6 +6,13 @@ from xml.etree import ElementTree as ET
 from pycldf import Dataset
 
 
+def form(parent, lang, text):
+    xml_form = ET.SubElement(parent, 'form', attrib={'lang': lang})
+    xml_text = ET.SubElement(xml_form, 'text')
+    xml_text.text = text
+    return xml_text
+
+
 def main():
 
     # load cldf data
@@ -36,9 +43,7 @@ def main():
         assert entry_id and lx, 'invalid entry'
         xml_entry = ET.SubElement(lift, 'entry', attrib={'id': entry_id})
         xml_lexunit = ET.SubElement(xml_entry, 'lexical-unit')
-        xml_form = ET.SubElement(xml_lexunit, 'form', attrib={'lang': lang})
-        xml_text = ET.SubElement(xml_form, 'text')
-        xml_text.text = lx
+        form(xml_lexunit, lang, lx)
 
         for sense in senses[entry_id]:
             sense_id = sense['ID']
@@ -48,9 +53,12 @@ def main():
                 xml_entry, 'sense', attrib={'id': xml_sense_id})
             ET.SubElement(xml_sense, 'grammatical-info', attrib={'type': ps})
             xml_de = ET.SubElement(xml_sense, 'definition')
-            xml_de_form = ET.SubElement(xml_de, 'form', attrib={'lang': 'en'})
-            xml_de_text = ET.SubElement(xml_de_form, 'text')
-            xml_de_text.text = de
+            form(xml_de, 'en', de)
+
+        va = entry.get('Variant_Form')
+        if va:
+            xml_va = ET.SubElement(xml_entry, 'variant')
+            form(xml_va, lang, va)
 
     print(str(
         ET.tostring(lift, encoding='UTF-8', xml_declaration=True),

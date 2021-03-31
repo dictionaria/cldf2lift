@@ -41,6 +41,10 @@
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#partOfSpeech",
                         "required": false,
                         "name": "Part_Of_Speech"
+                    },
+                    {
+                        "datatype": "string",
+                        "name": "Variant_Form"
                     }
                 ],
                 "primaryKey": [
