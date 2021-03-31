@@ -33,6 +33,17 @@ def main():
 
     entries = [e for e in cldf['EntryTable'] if e.get('ID') in senses]
 
+    examples = OrderedDict()
+    for example in cldf['ExampleTable']:
+        # TODO proper error handling
+        assert example.get('ID'), 'invalid example'
+        assert example.get('Primary_Text'), 'invalid example'
+        sense_ids = example.get('Sense_IDs')
+        for sense_id in sense_ids:
+            if sense_id not in examples:
+                examples[sense_id] = []
+            examples[sense_id].append(example)
+
     # generate lift xml
 
     lift = ET.Element('lift', lang=lang)
@@ -54,6 +65,18 @@ def main():
             ET.SubElement(xml_sense, 'grammatical-info', type=ps)
             xml_de = ET.SubElement(xml_sense, 'definition')
             form(xml_de, 'en', de)
+
+            for example in (examples.get(sense_id) or ()):
+                xv = example['Primary_Text']
+                xml_ex = ET.SubElement(xml_sense, 'example')
+                form(xml_ex, lang, xv)
+
+                # TODO alt_translation{1,2}
+                # TODO glosses?
+                xe = example.get('Translated_Text')
+                if xe:
+                    xml_xe = ET.SubElement(xml_ex, 'translation')
+                    form(xml_xe, 'en', xe)
 
         va = entry.get('Variant_Form')
         if va:
