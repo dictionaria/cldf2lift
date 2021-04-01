@@ -36,7 +36,10 @@ def _form(parent, lang, text):
     return xml_text
 
 
-def make_lift(entries, senses, examples, language, metalanguage):
+def make_lift(
+    entries, senses, examples,
+    language, metalanguage, alt_language_1, alt_language_2
+):
     lift = ET.Element('lift', lang=language)
     for entry in entries:
         entry_id = entry.get('ID')

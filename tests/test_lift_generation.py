@@ -18,7 +18,7 @@ def test_main(testdata_dir):
     entries, senses, examples = cldf2lift.extract_cldf_data(cldf)
     lift = cldf2lift.make_lift(
         entries, senses, examples,
-        'und', 'en')
+        'und', 'en', 'es', 'de')
 
     lift_str = ET.tostring(
         lift.getroot(), encoding='unicode', xml_declaration=True)

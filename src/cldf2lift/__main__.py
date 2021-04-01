@@ -54,7 +54,8 @@ def main():
     entries, senses, examples = cldf2lift.extract_cldf_data(cldf)
     lift = cldf2lift.make_lift(
         entries, senses, examples,
-        config.language, config.meta_language)
+        config.language, config.meta_language, config.meta_language_2,
+        config.meta_language_3)
 
     if config.output == '-':
         lift.write(sys.stdout, encoding='unicode', xml_declaration=True)
