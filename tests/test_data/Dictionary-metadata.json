@@ -12,7 +12,7 @@
     "tables": [
         {
             "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#EntryTable",
-            "dc:extent": 2,
+            "dc:extent": 3,
             "tableSchema": {
                 "columns": [
                     {
@@ -55,7 +55,7 @@
         },
         {
             "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#SenseTable",
-            "dc:extent": 3,
+            "dc:extent": 6,
             "tableSchema": {
                 "columns": [
                     {
@@ -78,6 +78,14 @@
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#entryReference",
                         "required": true,
                         "name": "Entry_ID"
+                    },
+                    {
+                        "datatype": "string",
+                        "name": "alt_translation1"
+                    },
+                    {
+                        "datatype": "string",
+                        "name": "alt_translation2"
                     }
                 ],
                 "foreignKeys": [

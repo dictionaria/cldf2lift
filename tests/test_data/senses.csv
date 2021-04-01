@@ -1,4 +1,7 @@
-ID,Description,Entry_ID
-id1,desc1,id1
-id2,desc2,id2
-id3,desc3,id2
+ID,Description,Entry_ID,alt_translation1,alt_translation2
+id1,desc1,id1,,
+id2,desc2,id2,,
+id3,desc3,id2,,
+id4,desc4,id3,at1-4,
+id5,desc5,id3,,at2-5
+id6,desc6,id3,at1-6,at2-6

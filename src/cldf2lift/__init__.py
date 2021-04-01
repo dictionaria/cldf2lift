@@ -55,6 +55,10 @@ def make_lift(
             ET.SubElement(xml_sense, 'grammatical-info', type=ps)
             xml_de = ET.SubElement(xml_sense, 'definition')
             _form(xml_de, metalanguage, de)
+            if alt_language_1 and sense.get('alt_translation1'):
+                _form(xml_de, alt_language_1, sense['alt_translation1'])
+            if alt_language_2 and sense.get('alt_translation2'):
+                _form(xml_de, alt_language_2, sense['alt_translation2'])
 
             for example in (examples.get(sense_id) or ()):
                 xv = example['Primary_Text']
