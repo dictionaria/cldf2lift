@@ -65,12 +65,15 @@ def make_lift(
                 xml_ex = ET.SubElement(xml_sense, 'example')
                 _form(xml_ex, language, xv)
 
-                # TODO alt_translation{1,2}
                 # TODO glosses?
                 xe = example.get('Translated_Text')
                 if xe:
                     xml_xe = ET.SubElement(xml_ex, 'translation')
                     _form(xml_xe, metalanguage, xe)
+                    if alt_language_1 and example.get('alt_translation1'):
+                        _form(xml_xe, alt_language_1, example['alt_translation1'])
+                    if alt_language_2 and example.get('alt_translation2'):
+                        _form(xml_xe, alt_language_2, example['alt_translation2'])
 
         va = entry.get('Variant_Form')
         if va:

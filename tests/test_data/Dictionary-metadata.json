@@ -109,7 +109,7 @@
         },
         {
             "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#ExampleTable",
-            "dc:extent": 2,
+            "dc:extent": 5,
             "tableSchema": {
                 "columns": [
                     {
@@ -169,6 +169,14 @@
                         "datatype": "string",
                         "separator": " ; ",
                         "name": "Sense_IDs"
+                    },
+                    {
+                        "datatype": "string",
+                        "name": "alt_translation1"
+                    },
+                    {
+                        "datatype": "string",
+                        "name": "alt_translation2"
                     }
                 ],
                 "foreignKeys": [
