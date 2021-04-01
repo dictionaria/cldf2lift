@@ -58,10 +58,11 @@ def main():
         config.meta_language_3)
 
     if config.output == '-':
-        lift.write(sys.stdout, encoding='unicode', xml_declaration=True)
+        lift.write(
+            sys.stdout, encoding='unicode')
     else:
         with open(config.output, 'wb') as f:
-            lift.write(f, encoding='UTF-8', xml_declaration=True)
+            lift.write(f, encoding='UTF-8')
 
 
 if __name__ == '__main__':

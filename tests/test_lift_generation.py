@@ -20,8 +20,7 @@ def test_main(testdata_dir):
         entries, senses, examples,
         'und', 'en', 'es', 'de')
 
-    lift_str = ET.tostring(
-        lift.getroot(), encoding='unicode', xml_declaration=True)
+    lift_str = ET.tostring(lift.getroot(), encoding='unicode')
     with open(testdata_dir / 'lift-export.lift', encoding='utf-8') as f:
         expected = f.read()
     assert lift_str == expected
