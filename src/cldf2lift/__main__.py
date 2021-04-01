@@ -33,19 +33,19 @@ def main():
     arg_parser.add_argument(
         'input_file', metavar='CLDF-METADATA', help='CLDF metadata file')
     arg_parser.add_argument(
-        '-o', '--output', default='-', metavar='FILENAME',
+        '-o', '--output', metavar='FILENAME', default='-',
         help='Output file or `-` for standard output [default: -]')
     arg_parser.add_argument(
-        '-l', '--language', default='und', metavar='LANG',
+        '-l', '--language', metavar='LANG', default='und',
         help='ISO 639-1 code of the language [default: und]')
     arg_parser.add_argument(
-        '--meta-language', default='en', metavar='LANG',
+        '--meta-language', metavar='LANG', default='en',
         help='ISO 639-1 code of the primary meta language [default: en]')
     arg_parser.add_argument(
-        '--meta-language-2', default=None, metavar='LANG',
+        '--meta-language-2', metavar='LANG', default=None,
         help='ISO 639-1 code of the secondary meta language [default: None]')
     arg_parser.add_argument(
-        '--meta-language-3', default=None, metavar='LANG',
+        '--meta-language-3', metavar='LANG', default=None,
         help='ISO 639-1 code of the tertiary meta language [default: None]')
 
     config = arg_parser.parse_args()
