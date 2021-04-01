@@ -1,29 +1,25 @@
-from collections import OrderedDict
+from collections import defaultdict
 from xml.etree import ElementTree as ET
 
 
 def extract_cldf_data(cldf):
-    senses = OrderedDict()
+    senses = defaultdict(list)
     for sense in cldf['SenseTable']:
         entry_id = sense.get('Entry_ID')
         # TODO proper error handling
         assert entry_id, 'invalid sense'
         assert sense.get('ID') and sense.get('Description'), 'invalid sense'
-        if entry_id not in senses:
-            senses[entry_id] = []
         senses[entry_id].append(sense)
 
     entries = [e for e in cldf['EntryTable'] if e.get('ID') in senses]
 
-    examples = OrderedDict()
+    examples = defaultdict(list)
     for example in cldf['ExampleTable']:
         # TODO proper error handling
         assert example.get('ID'), 'invalid example'
         assert example.get('Primary_Text'), 'invalid example'
         sense_ids = example.get('Sense_IDs')
         for sense_id in sense_ids:
-            if sense_id not in examples:
-                examples[sense_id] = []
             examples[sense_id].append(example)
 
     return entries, senses, examples
