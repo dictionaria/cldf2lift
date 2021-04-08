@@ -76,18 +76,45 @@ def add_cli_args(arg_parser):
     arg_parser.add_argument(
         '-l', '--language', metavar='LANG', default='und',
         help='ISO 639-1 code of the language [default: und]')
+
     arg_parser.add_argument(
         '--meta-language', metavar='LANG', default='en',
         help='ISO 639-1 code of the primary meta language [default: en]')
+
     arg_parser.add_argument(
         '--meta-language-2', metavar='LANG', default=None,
         help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
     arg_parser.add_argument(
+        '--description-col-2', metavar='COLUMNNAME', default='alt_translation1',
+        help='Column name for sense description in meta language 2 [default=alt_translation2]')
+    arg_parser.add_argument(
+        '--translation-col-2', metavar='COLUMNNAME', default='alt_translation1',
+        help='Column name for example translation in meta language 2 [default=alt_translation2]')
+
+    arg_parser.add_argument(
         '--meta-language-3', metavar='LANG', default=None,
         help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
+    arg_parser.add_argument(
+        '--description-col-3', metavar='COLUMNNAME', default='alt_translation2',
+        help='Column name for sense description in meta language 3 [default=alt_translation2]')
+    arg_parser.add_argument(
+        '--translation-col-3', metavar='COLUMNNAME', default='alt_translation2',
+        help='Column name for example translation in meta language 3 [default=alt_translation2]')
+
+    arg_parser.add_argument(
+        '--variant-col', metavar='COLUMNNAME', default='Variant_Form',
+        help='Column name for variants [default=Variant_Form]')
+    arg_parser.add_argument(
+        '--sense-id-col', metavar='COLUMNNAME', default='Sense_IDs',
+        help='Column name for references to sense in the example table [default=Sense_IDs]')
 
 
-def extract_cldf_data(cldf):
+def extract_cldf_data(
+    cldf,
+    sn_alttrans_col1, sn_alttrans_col2,
+    ex_atttrans_col1, ex_atttrans_col2,
+    variant_col, sense_id_col
+):
     senses = defaultdict(list)
     for sense in cldf.iter_rows('SenseTable', *SENSE_COLS):
         entry_id = sense.get(CLDF_ENTRY_ID)
