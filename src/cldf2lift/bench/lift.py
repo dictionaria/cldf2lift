@@ -1,13 +1,12 @@
-"""
-Convert CLDF dataset into the Lexicon Interchange FormaT (LIFT).
-"""
-
 import cldf2lift
 
 import sys
 
 from cldfbench.cli_util import with_dataset, add_dataset_spec
 from pycldf import iter_datasets
+
+
+__doc__ = cldf2lift.__doc__
 
 
 def register(parser):
