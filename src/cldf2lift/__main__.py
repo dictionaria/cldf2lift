@@ -22,9 +22,13 @@ The *secondary meta language* refers to the language used in the
 The *tertiary meta language* refers to the language used in the
 `alt_translation2` column of the `SenseTable`.
 
-Note: For all language codes, LIFT expects two-letter ISO 639-1 codes (e.g.
-      `en` for English).  If such a code is not available for your language,
-      fall back to its three-letter ISO 639-2/3 code.
+Note 1: For all language codes, LIFT expects two-letter ISO 639-1 codes (e.g.
+        `en` for English).  If such a code is not available for your language,
+        fall back to its three-letter ISO 639-2/3 code.
+
+Note 2: `alt_translation1` and `alt_translation2` are not part of the CLDF
+        standard but rather a convention used by the Dictionaria project
+        (dictionaria.clld.org).
 '''
 
 
@@ -43,10 +47,10 @@ def main():
         help='ISO 639-1 code of the primary meta language [default: en]')
     arg_parser.add_argument(
         '--meta-language-2', metavar='LANG', default=None,
-        help='ISO 639-1 code of the secondary meta language [default: None]')
+        help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
     arg_parser.add_argument(
         '--meta-language-3', metavar='LANG', default=None,
-        help='ISO 639-1 code of the tertiary meta language [default: None]')
+        help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
 
     config = arg_parser.parse_args()
 

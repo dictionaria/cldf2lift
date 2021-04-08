@@ -24,10 +24,10 @@ def register(parser):
         help='ISO 639-1 code of the primary meta language [default: en]')
     parser.add_argument(
         '--meta-language-2', metavar='LANG', default=None,
-        help='ISO 639-1 code of the secondary meta language [default: None]')
+        help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
     parser.add_argument(
         '--meta-language-3', metavar='LANG', default=None,
-        help='ISO 639-1 code of the tertiary meta language [default: None]')
+        help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
 
 
 def lift(dataset, args):
