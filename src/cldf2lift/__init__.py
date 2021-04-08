@@ -71,6 +71,22 @@ EXAMPLE_COLS = [
 ]
 
 
+def add_cli_args(arg_parser):
+    # TODO get 2-letter isocodes from md.json + magic
+    arg_parser.add_argument(
+        '-l', '--language', metavar='LANG', default='und',
+        help='ISO 639-1 code of the language [default: und]')
+    arg_parser.add_argument(
+        '--meta-language', metavar='LANG', default='en',
+        help='ISO 639-1 code of the primary meta language [default: en]')
+    arg_parser.add_argument(
+        '--meta-language-2', metavar='LANG', default=None,
+        help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
+    arg_parser.add_argument(
+        '--meta-language-3', metavar='LANG', default=None,
+        help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
+
+
 def extract_cldf_data(cldf):
     senses = defaultdict(list)
     for sense in cldf.iter_rows('SenseTable', *SENSE_COLS):

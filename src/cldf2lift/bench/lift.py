@@ -14,19 +14,7 @@ def register(parser):
     parser.add_argument(
         '-o', '--output', metavar='FILENAME',
         help='Output file [default: ./<sid>.lift]')
-    # TODO get 2-letter isocodes from md.json + magic
-    parser.add_argument(
-        '-l', '--language', metavar='LANG', default='und',
-        help='ISO 639-1 code of the language [default: und]')
-    parser.add_argument(
-        '--meta-language', metavar='LANG', default='en',
-        help='ISO 639-1 code of the primary meta language [default: en]')
-    parser.add_argument(
-        '--meta-language-2', metavar='LANG', default=None,
-        help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
-    parser.add_argument(
-        '--meta-language-3', metavar='LANG', default=None,
-        help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
+    cldf2lift.add_cli_args(parser)
 
 
 def lift(dataset, args):

@@ -17,18 +17,7 @@ def main():
     arg_parser.add_argument(
         '-o', '--output', metavar='FILENAME', default='-',
         help='Output file or `-` for standard output [default: -]')
-    arg_parser.add_argument(
-        '-l', '--language', metavar='LANG', default='und',
-        help='ISO 639-1 code of the language [default: und]')
-    arg_parser.add_argument(
-        '--meta-language', metavar='LANG', default='en',
-        help='ISO 639-1 code of the primary meta language [default: en]')
-    arg_parser.add_argument(
-        '--meta-language-2', metavar='LANG', default=None,
-        help='ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)')
-    arg_parser.add_argument(
-        '--meta-language-3', metavar='LANG', default=None,
-        help='ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)')
+    cldf2lift.add_cli_args(arg_parser)
 
     config = arg_parser.parse_args()
 
