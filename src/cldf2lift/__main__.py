@@ -33,7 +33,9 @@ Note 2: `alt_translation1` and `alt_translation2` are not part of the CLDF
 
 
 def main():
-    arg_parser = argparse.ArgumentParser(description=DESC)
+    arg_parser = argparse.ArgumentParser(
+        description=DESC,
+        formatter_class=argparse.RawTextHelpFormatter)
     arg_parser.add_argument(
         'input_file', metavar='CLDF-METADATA', help='CLDF metadata file')
     arg_parser.add_argument(
