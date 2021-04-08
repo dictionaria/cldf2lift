@@ -22,18 +22,14 @@ def main():
     config = arg_parser.parse_args()
 
     cldf = Dataset.from_metadata(config.input_file)
-    entries, senses, examples = cldf2lift.extract_cldf_data(
+
+    lift = cldf2lift.cldf2lift(
         cldf,
-        config.description_col_2, config.translation_col_2,
-        config.description_col_3, config.translation_col_3,
-        config.variant_col, config.sense_id_col)
-    lift = cldf2lift.make_lift(
-        entries, senses, examples,
         config.language, config.meta_language, config.meta_language_2,
         config.meta_language_3,
         config.description_col_2, config.translation_col_2,
         config.description_col_3, config.translation_col_3,
-        config.variant_col)
+        config.variant_col, config.sense_id_col)
 
     if config.output == '-':
         lift.write(

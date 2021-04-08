@@ -26,18 +26,13 @@ def lift(dataset, args):
             file=sys.stderr)
         return
 
-    entries, senses, examples = cldf2lift.extract_cldf_data(
+    lift = cldf2lift.cldf2lift(
         cldf,
-        args.description_col_2, args.translation_col_2,
-        args.description_col_3, args.translation_col_3,
-        args.variant_col, args.sense_id_col)
-    lift = cldf2lift.make_lift(
-        entries, senses, examples,
         args.language, args.meta_language, args.meta_language_2,
         args.meta_language_3,
         args.description_col_2, args.translation_col_2,
         args.description_col_3, args.translation_col_3,
-        args.variant_col)
+        args.variant_col, args.sense_id_col)
 
     outfile = args.output if args.output else '{}.lift'.format(dataset.id)
     with open(outfile, 'wb') as f:

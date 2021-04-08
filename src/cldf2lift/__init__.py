@@ -199,3 +199,24 @@ def make_lift(
             _form(xml_va, language, va)
 
     return ET.ElementTree(lift)
+
+
+def cldf2lift(
+    cldf,
+    language, metalanguage, alt_language_1, alt_language_2,
+    sn_alttrans_col1, ex_alttrans_col1,
+    sn_alttrans_col2, ex_alttrans_col2,
+    variant_col, sense_id_col
+):
+    entries, senses, examples = extract_cldf_data(
+        cldf,
+        sn_alttrans_col1, ex_alttrans_col1,
+        sn_alttrans_col2, ex_alttrans_col2,
+        variant_col, sense_id_col)
+    lift = make_lift(
+        entries, senses, examples,
+        language, metalanguage, alt_language_1, alt_language_2,
+        sn_alttrans_col1, ex_alttrans_col1,
+        sn_alttrans_col2, ex_alttrans_col2,
+        variant_col)
+    return lift
