@@ -133,7 +133,7 @@ def extract_cldf_data(
         # TODO proper error handling
         assert example.get(CLDF_ID), 'invalid example'
         assert example.get(CLDF_PRIMARY), 'invalid example'
-        sense_ids = example.get('Sense_IDs')
+        sense_ids = example.get(sense_id_col)
         for sense_id in sense_ids:
             examples[sense_id].append(example)
 
@@ -149,7 +149,10 @@ def _form(parent, lang, text):
 
 def make_lift(
     entries, senses, examples,
-    language, metalanguage, alt_language_1, alt_language_2
+    language, metalanguage, alt_language_1, alt_language_2,
+    sn_alttrans_col1, ex_alttrans_col1,
+    sn_alttrans_col2, ex_alttrans_col2,
+    variant_col
 ):
     lift = ET.Element('lift', lang=language)
     for entry in entries:
@@ -170,10 +173,10 @@ def make_lift(
             ET.SubElement(xml_sense, 'grammatical-info', type=ps)
             xml_de = ET.SubElement(xml_sense, 'definition')
             _form(xml_de, metalanguage, de)
-            if alt_language_1 and sense.get('alt_translation1'):
-                _form(xml_de, alt_language_1, sense['alt_translation1'])
-            if alt_language_2 and sense.get('alt_translation2'):
-                _form(xml_de, alt_language_2, sense['alt_translation2'])
+            if alt_language_1 and sense.get(sn_alttrans_col1):
+                _form(xml_de, alt_language_1, sense[sn_alttrans_col1])
+            if alt_language_2 and sense.get(sn_alttrans_col2):
+                _form(xml_de, alt_language_2, sense[sn_alttrans_col2])
 
             for example in (examples.get(sense_id) or ()):
                 xv = example[CLDF_PRIMARY]
@@ -185,12 +188,12 @@ def make_lift(
                 if xe:
                     xml_xe = ET.SubElement(xml_ex, 'translation')
                     _form(xml_xe, metalanguage, xe)
-                    if alt_language_1 and example.get('alt_translation1'):
-                        _form(xml_xe, alt_language_1, example['alt_translation1'])
-                    if alt_language_2 and example.get('alt_translation2'):
-                        _form(xml_xe, alt_language_2, example['alt_translation2'])
+                    if alt_language_1 and example.get(ex_alttrans_col1):
+                        _form(xml_xe, alt_language_1, example[ex_alttrans_col1])
+                    if alt_language_2 and example.get(ex_alttrans_col2):
+                        _form(xml_xe, alt_language_2, example[ex_alttrans_col2])
 
-        va = entry.get('Variant_Form')
+        va = entry.get(variant_col)
         if va:
             xml_va = ET.SubElement(xml_entry, 'variant')
             _form(xml_va, language, va)

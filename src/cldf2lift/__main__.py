@@ -30,7 +30,10 @@ def main():
     lift = cldf2lift.make_lift(
         entries, senses, examples,
         config.language, config.meta_language, config.meta_language_2,
-        config.meta_language_3)
+        config.meta_language_3,
+        config.description_col_2, config.translation_col_2,
+        config.description_col_3, config.translation_col_3,
+        config.variant_col)
 
     if config.output == '-':
         lift.write(
