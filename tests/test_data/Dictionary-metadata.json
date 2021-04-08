@@ -22,25 +22,25 @@
                         },
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#id",
                         "required": true,
-                        "name": "ID"
+                        "name": "lx_id"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#languageReference",
                         "required": true,
-                        "name": "Language_ID"
+                        "name": "lang"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#headword",
                         "required": true,
-                        "name": "Headword"
+                        "name": "lx"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#partOfSpeech",
                         "required": false,
-                        "name": "Part_Of_Speech"
+                        "name": "ps"
                     },
                     {
                         "datatype": "string",
@@ -48,7 +48,7 @@
                     }
                 ],
                 "primaryKey": [
-                    "ID"
+                    "lx_id"
                 ]
             },
             "url": "entries.csv"
@@ -65,19 +65,19 @@
                         },
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#id",
                         "required": true,
-                        "name": "ID"
+                        "name": "sn"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#description",
                         "required": true,
-                        "name": "Description"
+                        "name": "de"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#entryReference",
                         "required": true,
-                        "name": "Entry_ID"
+                        "name": "lx_ref"
                     },
                     {
                         "datatype": "string",
@@ -91,18 +91,18 @@
                 "foreignKeys": [
                     {
                         "columnReference": [
-                            "Entry_ID"
+                            "lx_ref"
                         ],
                         "reference": {
                             "resource": "entries.csv",
                             "columnReference": [
-                                "ID"
+                                "lx_id"
                             ]
                         }
                     }
                 ],
                 "primaryKey": [
-                    "ID"
+                    "sn"
                 ]
             },
             "url": "senses.csv"
@@ -119,51 +119,51 @@
                         },
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#id",
                         "required": true,
-                        "name": "ID"
+                        "name": "xid"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#languageReference",
                         "required": true,
-                        "name": "Language_ID"
+                        "name": "xlang"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#primaryText",
                         "required": true,
-                        "name": "Primary_Text"
+                        "name": "xv"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#analyzedWord",
                         "required": false,
                         "separator": "\\t",
-                        "name": "Analyzed_Word"
+                        "name": "xm"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#gloss",
                         "required": false,
                         "separator": "\\t",
-                        "name": "Gloss"
+                        "name": "xg"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#translatedText",
                         "required": false,
-                        "name": "Translated_Text"
+                        "name": "xe"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#metaLanguageReference",
                         "required": false,
-                        "name": "Meta_Language_ID"
+                        "name": "xmlang"
                     },
                     {
                         "datatype": "string",
                         "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#comment",
                         "required": false,
-                        "name": "Comment"
+                        "name": "xn"
                     },
                     {
                         "datatype": "string",
@@ -187,13 +187,13 @@
                         "reference": {
                             "resource": "senses.csv",
                             "columnReference": [
-                                "ID"
+                                "sn"
                             ]
                         }
                     }
                 ],
                 "primaryKey": [
-                    "ID"
+                    "xid"
                 ]
             },
             "url": "examples.csv"

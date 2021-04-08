@@ -2,22 +2,71 @@ from collections import defaultdict
 from xml.etree import ElementTree as ET
 
 
+CLDF_ID = 'http://cldf.clld.org/v1.0/terms.rdf#id'
+CLDF_LANG_ID = 'http://cldf.clld.org/v1.0/terms.rdf#languageReference'
+CLDF_HEADWORD = 'http://cldf.clld.org/v1.0/terms.rdf#headword'
+CLDF_POS = 'http://cldf.clld.org/v1.0/terms.rdf#partOfSpeech'
+
+CLDF_DESC = 'http://cldf.clld.org/v1.0/terms.rdf#description'
+CLDF_ENTRY_ID = 'http://cldf.clld.org/v1.0/terms.rdf#entryReference'
+
+CLDF_PRIMARY = 'http://cldf.clld.org/v1.0/terms.rdf#primaryText'
+CLDF_ANALYZED = 'http://cldf.clld.org/v1.0/terms.rdf#analyzedWord'
+CLDF_GLOSS = 'http://cldf.clld.org/v1.0/terms.rdf#gloss'
+CLDF_TRANS = 'http://cldf.clld.org/v1.0/terms.rdf#translatedText'
+CLDF_METALANG_ID = 'http://cldf.clld.org/v1.0/terms.rdf#metaLanguageReference'
+CLDF_COMMENT = 'http://cldf.clld.org/v1.0/terms.rdf#comment'
+
+
+ENTRY_COLS = [
+    CLDF_ID,
+    CLDF_LANG_ID,
+    CLDF_HEADWORD,
+    CLDF_POS,
+    'Variant_Form',
+]
+SENSE_COLS = [
+    CLDF_ID,
+    CLDF_DESC,
+    CLDF_ENTRY_ID,
+    'alt_translation1',
+    'alt_translation2',
+]
+EXAMPLE_COLS = [
+    CLDF_ID,
+    CLDF_LANG_ID,
+    CLDF_PRIMARY,
+    CLDF_ANALYZED,
+    CLDF_GLOSS,
+    CLDF_TRANS,
+    CLDF_METALANG_ID,
+    CLDF_COMMENT,
+    'Sense_IDs',
+    'alt_translation1',
+    'alt_translation2',
+]
+
+
 def extract_cldf_data(cldf):
     senses = defaultdict(list)
-    for sense in cldf['SenseTable']:
-        entry_id = sense.get('Entry_ID')
+    for sense in cldf.iter_rows('SenseTable', *SENSE_COLS):
+        entry_id = sense.get(CLDF_ENTRY_ID)
         # TODO proper error handling
         assert entry_id, 'invalid sense'
-        assert sense.get('ID') and sense.get('Description'), 'invalid sense'
+        assert sense.get(CLDF_ID), 'invalid sense'
+        assert sense.get(CLDF_DESC), 'invalid sense'
         senses[entry_id].append(sense)
 
-    entries = [e for e in cldf['EntryTable'] if e.get('ID') in senses]
+    entries = [
+        e
+        for e in cldf.iter_rows('EntryTable', *ENTRY_COLS)
+        if e.get(CLDF_ID) in senses]
 
     examples = defaultdict(list)
-    for example in cldf['ExampleTable']:
+    for example in cldf.iter_rows('ExampleTable', *EXAMPLE_COLS):
         # TODO proper error handling
-        assert example.get('ID'), 'invalid example'
-        assert example.get('Primary_Text'), 'invalid example'
+        assert example.get(CLDF_ID), 'invalid example'
+        assert example.get(CLDF_PRIMARY), 'invalid example'
         sense_ids = example.get('Sense_IDs')
         for sense_id in sense_ids:
             examples[sense_id].append(example)
@@ -38,9 +87,9 @@ def make_lift(
 ):
     lift = ET.Element('lift', lang=language)
     for entry in entries:
-        entry_id = entry.get('ID')
-        lx = entry.get('Headword')
-        ps = entry.get('Part_Of_Speech')
+        entry_id = entry.get(CLDF_ID)
+        lx = entry.get(CLDF_HEADWORD)
+        ps = entry.get(CLDF_POS)
         # TODO proper error handling
         assert entry_id and lx, 'invalid entry'
         xml_entry = ET.SubElement(lift, 'entry', id=entry_id)
@@ -48,8 +97,8 @@ def make_lift(
         _form(xml_lexunit, language, lx)
 
         for sense in senses[entry_id]:
-            sense_id = sense['ID']
-            de = sense['Description']
+            sense_id = sense[CLDF_ID]
+            de = sense[CLDF_DESC]
             xml_sense_id = '{}-{}'.format(entry_id, sense_id)
             xml_sense = ET.SubElement(xml_entry, 'sense', id=xml_sense_id)
             ET.SubElement(xml_sense, 'grammatical-info', type=ps)
@@ -61,12 +110,12 @@ def make_lift(
                 _form(xml_de, alt_language_2, sense['alt_translation2'])
 
             for example in (examples.get(sense_id) or ()):
-                xv = example['Primary_Text']
+                xv = example[CLDF_PRIMARY]
                 xml_ex = ET.SubElement(xml_sense, 'example')
                 _form(xml_ex, language, xv)
 
                 # TODO glosses?
-                xe = example.get('Translated_Text')
+                xe = example.get(CLDF_TRANS)
                 if xe:
                     xml_xe = ET.SubElement(xml_ex, 'translation')
                     _form(xml_xe, metalanguage, xe)

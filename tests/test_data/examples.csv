@@ -1,4 +1,4 @@
-ID,Language_ID,Primary_Text,Analyzed_Word,Gloss,Translated_Text,Meta_Language_ID,Comment,Sense_IDs,alt_translation1,alt_translation2
+xid,xlang,xv,xm,xg,xe,xmlang,xn,Sense_IDs,alt_translation1,alt_translation2
 id1,stan1295,prm1,,,tr1,,,id2 ; id3,,
 id2,stan1295,prm2,at1a\tat1b,gl1a\tgl2b,tr2,,,id3,,
 id3,stan1295,prm3,,,tr3,,,id4,at1-3,
