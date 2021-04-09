@@ -20,7 +20,7 @@ def register(parser):
 def lift(dataset, args):
     for cldf in iter_datasets(dataset.cldf_dir):
         break
-    else:
+    else:  # pragma: nocover
         print(
             'error: no cldf dataset found in', str(dataset.cldf_dir),
             file=sys.stderr)
