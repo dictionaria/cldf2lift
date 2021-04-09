@@ -9,6 +9,10 @@ from pycldf import Dataset
 
 
 def main():
+    _main(sys.argv[1:])
+
+
+def _main(args):
     arg_parser = argparse.ArgumentParser(
         description=cldf2lift.__doc__,
         formatter_class=argparse.RawTextHelpFormatter)
@@ -19,7 +23,7 @@ def main():
         help='Output file or `-` for standard output [default: -]')
     cldf2lift.add_cli_args(arg_parser)
 
-    config = arg_parser.parse_args()
+    config = arg_parser.parse_args(args)
 
     cldf = Dataset.from_metadata(config.input_file)
 
