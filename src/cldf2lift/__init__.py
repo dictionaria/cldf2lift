@@ -109,10 +109,17 @@ def extract_cldf_data(
     sn_alttrans_col2, ex_alttrans_col2,
     variant_col, sense_id_col
 ):
+    sense_cols = [
+        col
+        for col in SENSE_COLS
+        if cldf.get(('SenseTable', col))]
+    sense_cols.extend(
+        col
+        for col in (sn_alttrans_col1, sn_alttrans_col2)
+        if col and cldf.get(('SenseTable', col)))
+
     senses = defaultdict(list)
-    for sense in cldf.iter_rows(
-        'SenseTable', sn_alttrans_col1, sn_alttrans_col2, *SENSE_COLS
-    ):
+    for sense in cldf.iter_rows('SenseTable', *sense_cols):
         entry_id = sense.get(CLDF_ENTRY_ID)
         # TODO proper error handling
         assert entry_id, 'invalid sense'
@@ -120,22 +127,41 @@ def extract_cldf_data(
         assert sense.get(CLDF_DESC), 'invalid sense'
         senses[entry_id].append(sense)
 
+    entry_cols = [
+        col
+        for col in ENTRY_COLS
+        if cldf.get(('EntryTable', col))]
+    entry_cols.extend(
+        col
+        for col in (variant_col,)
+        if col and cldf.get(('EntryTable', col)))
     entries = [
         e
-        for e in cldf.iter_rows('EntryTable', variant_col, *ENTRY_COLS)
+        for e in cldf.iter_rows('EntryTable', *entry_cols)
         if e.get(CLDF_ID) in senses]
 
-    examples = defaultdict(list)
-    for example in cldf.iter_rows(
-        'ExampleTable',
-        sense_id_col, ex_alttrans_col1, ex_alttrans_col2, *EXAMPLE_COLS
-    ):
-        # TODO proper error handling
-        assert example.get(CLDF_ID), 'invalid example'
-        assert example.get(CLDF_PRIMARY), 'invalid example'
-        sense_ids = example.get(sense_id_col)
-        for sense_id in sense_ids:
-            examples[sense_id].append(example)
+    if cldf.get('ExampleTable'):
+        example_cols = [
+            col
+            for col in EXAMPLE_COLS
+            if cldf.get(('ExampleTable', col))]
+        example_cols.extend(
+            col
+            for col in (
+                sense_id_col, ex_alttrans_col1, ex_alttrans_col2
+            )
+            if col and cldf.get(('ExampleTable', col)))
+
+        examples = defaultdict(list)
+        for example in cldf.iter_rows('ExampleTable', *example_cols):
+            # TODO proper error handling
+            assert example.get(CLDF_ID), 'invalid example'
+            assert example.get(CLDF_PRIMARY), 'invalid example'
+            sense_ids = example.get(sense_id_col)
+            for sense_id in sense_ids:
+                examples[sense_id].append(example)
+    else:
+        examples = {}
 
     return entries, senses, examples
 
@@ -170,7 +196,8 @@ def make_lift(
             de = sense[CLDF_DESC]
             xml_sense_id = '{}-{}'.format(entry_id, sense_id)
             xml_sense = ET.SubElement(xml_entry, 'sense', id=xml_sense_id)
-            ET.SubElement(xml_sense, 'grammatical-info', type=ps)
+            if ps:
+                ET.SubElement(xml_sense, 'grammatical-info', type=ps)
             xml_de = ET.SubElement(xml_sense, 'definition')
             _form(xml_de, metalanguage, de)
             if alt_language_1 and sense.get(sn_alttrans_col1):
@@ -208,6 +235,13 @@ def cldf2lift(
     sn_alttrans_col2, ex_alttrans_col2,
     variant_col, sense_id_col
 ):
+    if not alt_language_1:
+        sn_alttrans_col1 = None
+        ex_alttrans_col1 = None
+    if not alt_language_2:
+        sn_alttrans_col2 = None
+        sn_alttrans_col2 = None
+
     entries, senses, examples = extract_cldf_data(
         cldf,
         sn_alttrans_col1, ex_alttrans_col1,
