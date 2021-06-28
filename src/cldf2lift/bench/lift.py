@@ -29,7 +29,7 @@ def lift(dataset, args):
     # invalid datasets toss a dozen lines of stack trace at the user
     try:
         cldf.validate()
-    except ValueError as error:
+    except ValueError as error:  # pragma: no cover
         print('Invalid CLDF dataset:', str(error), file=sys.stderr)
         return
 
@@ -46,5 +46,5 @@ def lift(dataset, args):
         lift.write(f, encoding='UTF-8')
 
 
-def run(args):
+def run(args):  # pragma: no cover
     with_dataset(args, lift)

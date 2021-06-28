@@ -8,7 +8,7 @@ import sys
 from pycldf import Dataset
 
 
-def main():
+def main():  # pragma: no cover
     _main(sys.argv[1:])
 
 
@@ -30,7 +30,7 @@ def _main(args):
     # invalid datasets toss a dozen lines of stack trace at the user
     try:
         cldf.validate()
-    except ValueError as error:
+    except ValueError as error:  # pragma: no cover
         print('Invalid CLDF dataset:', str(error), file=sys.stderr)
         sys.exit(1)
 
@@ -43,12 +43,11 @@ def _main(args):
         config.variant_col, config.sense_id_col)
 
     if config.output == '-':
-        lift.write(
-            sys.stdout, encoding='unicode')
+        lift.write(sys.stdout, encoding='unicode')
     else:
         with open(config.output, 'wb') as f:
             lift.write(f, encoding='UTF-8')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
