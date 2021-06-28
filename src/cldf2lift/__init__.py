@@ -25,6 +25,8 @@ Note 2: `alt_translation1` and `alt_translation2` are not part of the CLDF
 from collections import defaultdict
 from xml.etree import ElementTree as ET
 
+import pycountry
+
 
 CLDF_ID = 'http://cldf.clld.org/v1.0/terms.rdf#id'
 CLDF_LANG_ID = 'http://cldf.clld.org/v1.0/terms.rdf#languageReference'
@@ -66,7 +68,6 @@ EXAMPLE_COLS = [
 
 
 def add_cli_args(arg_parser):
-    # TODO get 2-letter isocodes from md.json + magic
     arg_parser.add_argument(
         '-l', '--language', metavar='LANG', default='und',
         help='ISO 639-1 code of the language [default: und]')
@@ -166,6 +167,18 @@ def _form(parent, lang, text):
     return xml_text
 
 
+def iso3_to_iso2(iso_code):
+    """Return two-letter variant from a three-letter ISO 639-3 code."""
+    if not iso_code:
+        return iso_code
+
+    language = pycountry.languages.get(alpha_3=iso_code)
+    if language and hasattr(language, 'alpha_2'):
+        return language.alpha_2
+    else:
+        return iso_code
+
+
 def make_lift(
     entries, senses, examples,
     language, metalanguage, alt_language_1, alt_language_2,
@@ -173,6 +186,11 @@ def make_lift(
     sn_alttrans_col2, ex_alttrans_col2,
     variant_col
 ):
+    language = iso3_to_iso2(language)
+    metalanguage = iso3_to_iso2(metalanguage)
+    alt_language_1 = iso3_to_iso2(alt_language_1)
+    alt_language_2 = iso3_to_iso2(alt_language_2)
+
     lift = ET.Element('lift', lang=language)
     for entry in entries:
         entry_id = entry.get(CLDF_ID)

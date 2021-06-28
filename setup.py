@@ -24,6 +24,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'pycldf',
+        'pycountry',
     ],
     extras_require={
         'cldfbench': ['cldfbench'],
