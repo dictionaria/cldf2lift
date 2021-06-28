@@ -26,6 +26,13 @@ def lift(dataset, args):
             file=sys.stderr)
         return
 
+    # invalid datasets toss a dozen lines of stack trace at the user
+    try:
+        cldf.validate()
+    except ValueError as error:
+        print('Invalid CLDF dataset:', str(error), file=sys.stderr)
+        return
+
     lift = cldf2lift.cldf2lift(
         cldf,
         args.language, args.meta_language, args.meta_language_2,

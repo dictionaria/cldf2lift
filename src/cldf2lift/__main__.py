@@ -27,6 +27,13 @@ def _main(args):
 
     cldf = Dataset.from_metadata(config.input_file)
 
+    # invalid datasets toss a dozen lines of stack trace at the user
+    try:
+        cldf.validate()
+    except ValueError as error:
+        print('Invalid CLDF dataset:', str(error), file=sys.stderr)
+        sys.exit(1)
+
     lift = cldf2lift.cldf2lift(
         cldf,
         config.language, config.meta_language, config.meta_language_2,

@@ -121,10 +121,6 @@ def extract_cldf_data(
     senses = defaultdict(list)
     for sense in cldf.iter_rows('SenseTable', *sense_cols):
         entry_id = sense.get(CLDF_ENTRY_ID)
-        # TODO proper error handling
-        assert entry_id, 'invalid sense'
-        assert sense.get(CLDF_ID), 'invalid sense'
-        assert sense.get(CLDF_DESC), 'invalid sense'
         senses[entry_id].append(sense)
 
     entry_cols = [
@@ -154,9 +150,6 @@ def extract_cldf_data(
 
         examples = defaultdict(list)
         for example in cldf.iter_rows('ExampleTable', *example_cols):
-            # TODO proper error handling
-            assert example.get(CLDF_ID), 'invalid example'
-            assert example.get(CLDF_PRIMARY), 'invalid example'
             sense_ids = example.get(sense_id_col)
             for sense_id in sense_ids:
                 examples[sense_id].append(example)
@@ -185,8 +178,6 @@ def make_lift(
         entry_id = entry.get(CLDF_ID)
         lx = entry.get(CLDF_HEADWORD)
         ps = entry.get(CLDF_POS)
-        # TODO proper error handling
-        assert entry_id and lx, 'invalid entry'
         xml_entry = ET.SubElement(lift, 'entry', id=entry_id)
         xml_lexunit = ET.SubElement(xml_entry, 'lexical-unit')
         _form(xml_lexunit, language, lx)
