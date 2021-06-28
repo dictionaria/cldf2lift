@@ -18,7 +18,11 @@ Converts a CLDF Dictionary
 
 ```
 usage: cldf2lift [-h] [-o FILENAME] [-l LANG] [--meta-language LANG]
-                 [--meta-language-2 LANG] [--meta-language-3 LANG]
+                 [--meta-language-2 LANG] [--description-col-2 COLUMNNAME]
+                 [--translation-col-2 COLUMNNAME] [--meta-language-3 LANG]
+                 [--description-col-3 COLUMNNAME]
+                 [--translation-col-3 COLUMNNAME] [--variant-col COLUMNNAME]
+                 [--sense-id-col COLUMNNAME]
                  CLDF-METADATA
 
 Convert a dictionary from the Cross Linguistic Data Formats (CLDF)
@@ -35,13 +39,9 @@ The *secondary meta language* refers to the language used in the
 The *tertiary meta language* refers to the language used in the
 `alt_translation2` column of the `SenseTable`.
 
-Note 1: For all language codes, LIFT expects two-letter ISO 639-1 codes (e.g.
-        `en` for English).  If such a code is not available for your language,
-        fall back to its three-letter ISO 639-2/3 code.
-
-Note 2: `alt_translation1` and `alt_translation2` are not part of the CLDF
-        standard but rather a convention used by the Dictionaria project
-        (dictionaria.clld.org).
+Note: `alt_translation1` and `alt_translation2` are not part of the CLDF
+      standard but rather a convention used by the Dictionaria project
+      (dictionaria.clld.org).
 
 positional arguments:
   CLDF-METADATA         CLDF metadata file
@@ -51,12 +51,24 @@ optional arguments:
   -o FILENAME, --output FILENAME
                         Output file or `-` for standard output [default: -]
   -l LANG, --language LANG
-                        ISO 639-1 code of the language [default: und]
-  --meta-language LANG  ISO 639-1 code of the primary meta language [default: en]
+                        ISO 639-3 code of the language [default: und]
+  --meta-language LANG  ISO 639-3 code of the primary meta language [default: eng]
   --meta-language-2 LANG
-                        ISO 639-1 code of the secondary meta language [default: None] (Dictionaria extension)
+                        ISO 639-3 code of the secondary meta language [default: None] (Dictionaria extension)
+  --description-col-2 COLUMNNAME
+                        Column name for sense description in meta language 2 [default: alt_translation1]
+  --translation-col-2 COLUMNNAME
+                        Column name for example translation in meta language 2 [default: alt_translation1]
   --meta-language-3 LANG
-                        ISO 639-1 code of the tertiary meta language [default: None] (Dictionaria extension)
+                        ISO 639-3 code of the tertiary meta language [default: None] (Dictionaria extension)
+  --description-col-3 COLUMNNAME
+                        Column name for sense description in meta language 3 [default: alt_translation2]
+  --translation-col-3 COLUMNNAME
+                        Column name for example translation in meta language 3 [default: alt_translation2]
+  --variant-col COLUMNNAME
+                        Column name for variants [default: Variant_Form]
+  --sense-id-col COLUMNNAME
+                        Column name for references to sense in the example table [default: Sense_IDs]
 ```
 
 ## CLDFbench subcommand
@@ -64,7 +76,14 @@ optional arguments:
 ```
 usage: cldfbench lift.lift [-h] [--entry-point ENTRY_POINT] [-o FILENAME]
                            [-l LANG] [--meta-language LANG]
-                           [--meta-language-2 LANG] [--meta-language-3 LANG]
+                           [--meta-language-2 LANG]
+                           [--description-col-2 COLUMNNAME]
+                           [--translation-col-2 COLUMNNAME]
+                           [--meta-language-3 LANG]
+                           [--description-col-3 COLUMNNAME]
+                           [--translation-col-3 COLUMNNAME]
+                           [--variant-col COLUMNNAME]
+                           [--sense-id-col COLUMNNAME]
                            DATASET
 
 Convert a dictionary from the Cross Linguistic Data Formats (CLDF)
@@ -81,13 +100,9 @@ The *secondary meta language* refers to the language used in the
 The *tertiary meta language* refers to the language used in the
 `alt_translation2` column of the `SenseTable`.
 
-Note 1: For all language codes, LIFT expects two-letter ISO 639-1 codes (e.g.
-        `en` for English).  If such a code is not available for your language,
-        fall back to its three-letter ISO 639-2/3 code.
-
-Note 2: `alt_translation1` and `alt_translation2` are not part of the CLDF
-        standard but rather a convention used by the Dictionaria project
-        (dictionaria.clld.org).
+Note: `alt_translation1` and `alt_translation2` are not part of the CLDF
+      standard but rather a convention used by the Dictionaria project
+      (dictionaria.clld.org).
 
 positional arguments:
   DATASET               Dataset spec, either ID of installed dataset or path
@@ -99,17 +114,32 @@ optional arguments:
                         Name of entry_points to identify datasets (default:
                         cldfbench.dataset)
   -o FILENAME, --output FILENAME
-                        Output file [default: ./<sid>.lift] (default: None)
+                        Output file [default: ./<sid>.lift]
   -l LANG, --language LANG
-                        ISO 639-1 code of the language [default: und]
-                        (default: und)
-  --meta-language LANG  ISO 639-1 code of the primary meta language [default:
-                        en] (default: en)
+                        ISO 639-3 code of the language [default: und]
+  --meta-language LANG  ISO 639-3 code of the primary meta language [default:
+                        eng]
   --meta-language-2 LANG
-                        ISO 639-1 code of the secondary meta language
-                        [default: None] (Dictionaria extension) (default:
-                        None)
+                        ISO 639-3 code of the secondary meta language
+                        [default: None] (Dictionaria extension)
+  --description-col-2 COLUMNNAME
+                        Column name for sense description in meta language 2
+                        [default: alt_translation1]
+  --translation-col-2 COLUMNNAME
+                        Column name for example translation in meta language 2
+                        [default: alt_translation1]
   --meta-language-3 LANG
-                        ISO 639-1 code of the tertiary meta language [default:
-                        None] (Dictionaria extension) (default: None)
+                        ISO 639-3 code of the tertiary meta language [default:
+                        None] (Dictionaria extension)
+  --description-col-3 COLUMNNAME
+                        Column name for sense description in meta language 3
+                        [default: alt_translation2]
+  --translation-col-3 COLUMNNAME
+                        Column name for example translation in meta language 3
+                        [default: alt_translation2]
+  --variant-col COLUMNNAME
+                        Column name for variants [default: Variant_Form]
+  --sense-id-col COLUMNNAME
+                        Column name for references to sense in the example
+                        table [default: Sense_IDs]
 ```

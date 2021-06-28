@@ -1,5 +1,6 @@
 import cldf2lift
 
+import argparse
 import sys
 
 from cldfbench.cli_util import with_dataset, add_dataset_spec
@@ -12,7 +13,7 @@ __doc__ = cldf2lift.__doc__
 def register(parser):
     add_dataset_spec(parser)
     parser.add_argument(
-        '-o', '--output', metavar='FILENAME',
+        '-o', '--output', metavar='FILENAME', default=argparse.SUPPRESS,
         help='Output file [default: ./<sid>.lift]')
     cldf2lift.add_cli_args(parser)
 

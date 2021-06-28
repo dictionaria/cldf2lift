@@ -20,7 +20,7 @@ def _main(args):
         'input_file', metavar='CLDF-METADATA', help='CLDF metadata file')
     arg_parser.add_argument(
         '-o', '--output', metavar='FILENAME', default='-',
-        help='Output file or `-` for standard output [default: -]')
+        help='Output file or `-` for standard output [default: %(default)s]')
     cldf2lift.add_cli_args(arg_parser)
 
     config = arg_parser.parse_args(args)
