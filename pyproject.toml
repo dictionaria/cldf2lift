@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cldf2lift"
+version = "0.01"
+requires-python = ">= 3.8"
+dependencies = ["pycldf", "pycountry"]
+authors = [
+    { name="Johannes Englisch", email="johannes_englisch@eva.mpg.de" },
+]
+description = "Simple CLDF to LIFT converter."
+readme = "README.md"
+keywords = ["data", "linguistics"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+]
+
+[project.urls]
+Repository = "https://github.com/dictionaria/cldf2lift"
+Issues = "https://github.com/dictionaria/cldf2lift/issues"
+
+[project.scripts]
+cldf2lift = "cldf2lift.__main__:main"
+
+[project.entry-points."cldfbench.commands"]
+lift = "cldf2lift.bench"
+
+[project.optional-dependencies]
+dev = [ "flake8" ]
+test = [ "tox", "pluggy", "pytest>= 6.0", "pytest-mock", "pytest-cov", "coverage" ]
+cldfbench = [ "cldfbench" ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::UserWarning"]
+addopts = ["--cov=cldf2lift", "--cov-report", "term-missing"]
+
+[tool.coverage.run]
+source = ["cldf2lift", "tests"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
