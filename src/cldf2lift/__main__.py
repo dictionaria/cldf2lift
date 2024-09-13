@@ -38,7 +38,7 @@ def _main(args):
         cldf,
         config.language, config.meta_language, config.meta_language_2,
         config.meta_language_3,
-        config.description_col_2, config.translation_col_2,
+        config.headword_column, config.description_col_2, config.translation_col_2,
         config.description_col_3, config.translation_col_3,
         config.variant_col, config.sense_id_col)
 

@@ -69,6 +69,10 @@ def add_cli_args(arg_parser):
         help='ISO 639-3 code of the language [default: %(default)s]')
 
     arg_parser.add_argument(
+        '--headword-column', metavar='COLUMNNAME', default=CLDF_HEADWORD,
+        help='Column name for the headword in the desired orthography [default: Headword]')
+
+    arg_parser.add_argument(
         '--meta-language', metavar='LANG', default='eng',
         help='ISO 639-3 code of the primary meta language [default: %(default)s]')
 
@@ -178,7 +182,7 @@ def iso3_to_iso2(iso_code):
 def make_lift(
     entries, senses, examples,
     language, metalanguage, alt_language_1, alt_language_2,
-    sn_alttrans_col1, ex_alttrans_col1,
+    headword_column, sn_alttrans_col1, ex_alttrans_col1,
     sn_alttrans_col2, ex_alttrans_col2,
     variant_col
 ):
@@ -190,7 +194,7 @@ def make_lift(
     lift = ET.Element('lift', lang=language)
     for entry in entries:
         entry_id = entry.get(CLDF_ID)
-        lx = entry.get(CLDF_HEADWORD)
+        lx = entry.get(headword_column)
         ps = entry.get(CLDF_POS)
         xml_entry = ET.SubElement(lift, 'entry', id=entry_id)
         xml_lexunit = ET.SubElement(xml_entry, 'lexical-unit')
@@ -236,7 +240,7 @@ def make_lift(
 def cldf2lift(
     cldf,
     language, metalanguage, alt_language_1, alt_language_2,
-    sn_alttrans_col1, ex_alttrans_col1,
+    headword_column, sn_alttrans_col1, ex_alttrans_col1,
     sn_alttrans_col2, ex_alttrans_col2,
     variant_col, sense_id_col
 ):
@@ -255,7 +259,7 @@ def cldf2lift(
     lift = make_lift(
         entries, senses, examples,
         language, metalanguage, alt_language_1, alt_language_2,
-        sn_alttrans_col1, ex_alttrans_col1,
+        headword_column, sn_alttrans_col1, ex_alttrans_col1,
         sn_alttrans_col2, ex_alttrans_col2,
         variant_col)
     return lift

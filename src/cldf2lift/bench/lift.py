@@ -38,7 +38,7 @@ def lift(dataset, args):
         cldf,
         args.language, args.meta_language, args.meta_language_2,
         args.meta_language_3,
-        args.description_col_2, args.translation_col_2,
+        args.headword_column, args.description_col_2, args.translation_col_2,
         args.description_col_3, args.translation_col_3,
         args.variant_col, args.sense_id_col)
 

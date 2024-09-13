@@ -26,6 +26,7 @@ def test_main(testbench_dir):
     lift = cldf2lift.cldf2lift(
         cldf,
         'und', 'en', 'es', 'de',
+        'http://cldf.clld.org/v1.0/terms.rdf#headword',
         'alt_translation1', 'alt_translation1',
         'alt_translation2', 'alt_translation2',
         'Variant_Form', 'Sense_IDs')
