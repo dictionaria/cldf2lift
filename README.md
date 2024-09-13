@@ -17,8 +17,9 @@ Converts a CLDF Dictionary
 ## Stand-alone command-line interface
 
 ```
-usage: cldf2lift [-h] [-o FILENAME] [-l LANG] [--meta-language LANG]
-                 [--meta-language-2 LANG] [--description-col-2 COLUMNNAME]
+usage: cldf2lift [-h] [-o FILENAME] [-l LANG] [--headword-column COLUMNNAME]
+                 [--meta-language LANG] [--meta-language-2 LANG]
+                 [--description-col-2 COLUMNNAME]
                  [--translation-col-2 COLUMNNAME] [--meta-language-3 LANG]
                  [--description-col-3 COLUMNNAME]
                  [--translation-col-3 COLUMNNAME] [--variant-col COLUMNNAME]
@@ -52,6 +53,8 @@ optional arguments:
                         Output file or `-` for standard output [default: -]
   -l LANG, --language LANG
                         ISO 639-3 code of the language [default: und]
+  --headword-column COLUMNNAME
+                        Column name for the headword in the desired orthography [default: Headword]
   --meta-language LANG  ISO 639-3 code of the primary meta language [default: eng]
   --meta-language-2 LANG
                         ISO 639-3 code of the secondary meta language [default: None] (Dictionaria extension)
@@ -75,8 +78,8 @@ optional arguments:
 
 ```
 usage: cldfbench lift.lift [-h] [--entry-point ENTRY_POINT] [-o FILENAME]
-                           [-l LANG] [--meta-language LANG]
-                           [--meta-language-2 LANG]
+                           [-l LANG] [--headword-column COLUMNNAME]
+                           [--meta-language LANG] [--meta-language-2 LANG]
                            [--description-col-2 COLUMNNAME]
                            [--translation-col-2 COLUMNNAME]
                            [--meta-language-3 LANG]
@@ -117,6 +120,10 @@ optional arguments:
                         Output file [default: ./<sid>.lift]
   -l LANG, --language LANG
                         ISO 639-3 code of the language [default: und]
+  --headword-column COLUMNNAME
+                        Column name for the headword in the desired
+                        orthography [default: Headword] (default:
+                        http://cldf.clld.org/v1.0/terms.rdf#headword)
   --meta-language LANG  ISO 639-3 code of the primary meta language [default:
                         eng]
   --meta-language-2 LANG
